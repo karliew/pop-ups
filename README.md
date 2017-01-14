@@ -79,6 +79,6 @@ Use PopUps for a basic modal, basic styles in ```_modal.scss```
 Just add the attribute ```data-popup-init``` to the PopUp element
 
 ```html
-<!-- Auto launch PopUp on load --->
+<!-- Auto launch PopUp on load -->
 <section id="verify-modal" class="popup" aria-hidden="true" data-popup-init></section>
 ```
