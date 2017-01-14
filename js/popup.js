@@ -102,7 +102,6 @@ var PopItUp = (function() {
       var popup = $(s.self).data('popup');
       $('#'+popup).removeClass('is-open').attr('aria-hidden', 'true');
       s.body.removeClass('popup--is-open popup--auto-open');
-      //s.body.removeClass('popup--auto-open');
     },
 
     /**
@@ -116,7 +115,6 @@ var PopItUp = (function() {
           vimeoPath = vimeoURL+vimeoID,
           vimeoColor = $(s.self).data('vimeo-color');
 
-
       $.getJSON('http://www.vimeo.com/api/oembed.json?url=' + encodeURIComponent(vimeoPath) + '&title=0&byline=0&color=' + vimeoColor + '&autoplay=1&callback=?', 
         
         function(data){
@@ -129,8 +127,7 @@ var PopItUp = (function() {
      * Just clear out vids
      */
     stopVideo: function(){
-      //var vimeourl = $(".popup__vid").data('vid');
-       $(".popup__vid").empty();
+      $(".popup__vid").empty();
     },
   };
 })();
