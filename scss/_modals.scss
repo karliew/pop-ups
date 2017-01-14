@@ -1,0 +1,107 @@
+//----------------------------------------------
+//  Modals
+//  Modals are triggered from inside the
+//  PopUp component.
+//
+//  @group Modals
+//  @see js/components/_popups.js
+//  @see scss/components/_popups.scss 
+//----------------------------------------------
+.modal{
+  display: block;
+  width: 95%;
+  max-width: 60em;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+  overflow:hidden;
+  
+  @media (min-width: $mq-med){
+    display: flex;
+    flex-direction: row;
+    min-height: 30em;
+    width: 80%;
+  }
+
+
+  // Columns
+  &__col{
+    position: relative;
+    background-color: #fff;
+
+    @media (min-width: $mq-med){
+      display:flex;
+      flex-basis:50%;
+      max-width: 50%;
+      width: 50%;
+      flex-direction: column;
+      align-items:center;
+      justify-content: center;
+    }
+  }
+
+  // Make Bg Img col wider
+  &__col.has-bg{
+    min-height: 15em;
+
+    @media (min-width: $mq-med){
+      flex-basis:70%;
+      max-width: 70%;
+      width: 70%;
+    }
+  }
+
+  // Absolutely positioned bg image
+  &__bg{
+    z-index: 0;
+    position: absolute;
+    height: 100%;
+    min-height: 15em;
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow:hidden
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(1);
+    transition: transform 0.4s $ease-cb;
+  }
+
+  // Main Content
+  &__content{
+    position: relative;
+    width: 100%;
+    padding: 2em 1em;
+    background-color: #fff;
+    color: #999;
+    text-align: center;
+
+    @media (min-width: $mq-med){
+      width: 85%;
+    }
+  }
+  // Title
+  &__title{
+    margin: 1.5em auto 0.5em;
+  }
+
+  // Max width the text
+  &__text{
+    max-width: 18em;
+    margin: 0 auto 1.5em;
+  }
+}
+
+//----------------------------------------------
+// Modal Enterance Animation
+//----------------------------------------------
+.is-open .modal{
+  animation: scale-in 0.25s ease-in both;
+}
+
+//----------------------------------------------
+//  Scale In Animation
+//----------------------------------------------
+@keyframes scale-in {
+  0%   { transform: scale(0.5); }
+  100% { transform: scale(1); }
+}
