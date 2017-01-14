@@ -1,23 +1,15 @@
 /**
  * PopUps
- *
- * A flexible popup component that supports stuff like
- * modals, navs, full viewport elements, and full viewport 
- * Vimeo vis.
- *
- * Instances triggered via data attributes.
+ * For stuff like modals and popups. 
+ * Uses data atts to support multiple unique instances.
  *
  * @version: 1.2 (added aria support)
  * @author  Stephen Scaff
- * @example 
- *  // Pop Up Trigger
- *  <a href="" data-popup="modal-popup">Poppin and Rockin</a> 
- *  // Pop Up Element     
- *  <article id="modal-popup">Rock it don't stop</article>
+ * @example <a href="" data-popup="modal-popup">Poppin and Rockin</a> 
+ *          El to Popup <article id="modal-popup">Rock it don't stop</article>
  */
 
-var PopUps = (function() {
-
+var PopItUp = (function() {
 
   /**
    * Settings
@@ -27,7 +19,7 @@ var PopUps = (function() {
     openLink: $('[data-popup]'),
     closeLink: $('.js-close-popup'),
     body: $(document.body),
-    vimeoID: $('[data-vimeo-id]'),
+    //vimeoID: $('[data-vimeo-id]'), @todo - fix scope issue
     videoHolder:  $('.popup__vid'),
     self: null
   };
@@ -49,7 +41,7 @@ var PopUps = (function() {
       
       // Auto Open
       if (typeof s.autoOpen.data('popup-init') !== 'undefined'){
-        PopUps.autoOpenPopUp();
+        PopItUp.autoOpenPopUp();
       }
 
       // Opener
@@ -57,27 +49,26 @@ var PopUps = (function() {
         e.preventDefault();
         e.stopPropagation();
         s.self = this;
-        PopUps.openPopUp();
-        console.log(s.self);
-
-        // If popup has data-vid
-        if(s.vimeoID) { 
-          PopUps.playVideo();
+        PopItUp.openPopUp();
+        
+        // If we have a Vimeo ID
+        if ($(this).data('vimeo-id')){
+          PopItUp.playVideo();
         }
       });
       
       // Close Link
       s.closeLink.on( 'click', function(e) {
         e.preventDefault();
-        PopUps.closePopUp();
-        PopUps.stopVideo();
+        PopItUp.closePopUp();
+        PopItUp.stopVideo();
       });
 
       // Close on escape
       s.body.on("keyup click", function(e) {
         if (s.body.hasClass('popup--is-open') && e.which === 27) {
-          PopUps.closePopUp();
-          PopUps.stopVideo();
+          PopItUp.closePopUp();
+          PopItUp.stopVideo();
         } 
       });
     },
@@ -94,13 +85,13 @@ var PopUps = (function() {
      * Open PopUps
      */
     openPopUp: function(){
-      var popup = $(s.self).attr('data-popup');
+      var popup = $(s.self).data('popup');
       
       // Make sure we close any rouge autoOpens
       s.autoOpen.removeClass('is-open');
 
       // now, let's open that shit
-      $('#'+popup).addClass('is-open');
+      $('#'+popup).addClass('is-open').attr('aria-hidden', 'false');
       s.body.addClass('popup--is-open');
     },
     
@@ -108,8 +99,8 @@ var PopUps = (function() {
      * Close Popups
      */
     closePopUp: function(){
-      var popup = $(s.self).attr('data-popup');
-      $('#'+popup).removeClass('is-open');
+      var popup = $(s.self).data('popup');
+      $('#'+popup).removeClass('is-open').attr('aria-hidden', 'true');
       s.body.removeClass('popup--is-open popup--auto-open');
       //s.body.removeClass('popup--auto-open');
     },
@@ -119,10 +110,12 @@ var PopUps = (function() {
      * Supports Vimeo for the full viewport vids
      */
     playVideo: function(){
-      var vimeoID = $(s.self).attr('data-vimeo-id'), 
+      /** @todo Fix vimeoID 'this' scope */
+      var vimeoID = $(s.self).data('vimeo-id'), 
           vimeoURL = 'https://player.vimeo.com/video/',
           vimeoPath = vimeoURL+vimeoID,
-          vimeoColor = $(s.self).data('vimeo-color'); 
+          vimeoColor = $(s.self).data('vimeo-color');
+
 
       $.getJSON('http://www.vimeo.com/api/oembed.json?url=' + encodeURIComponent(vimeoPath) + '&title=0&byline=0&color=' + vimeoColor + '&autoplay=1&callback=?', 
         
@@ -132,12 +125,13 @@ var PopUps = (function() {
     },
 
     /**
-     * Stop Video2
+     * Stop Video
+     * Just clear out vids
      */
     stopVideo: function(){
+      //var vimeourl = $(".popup__vid").data('vid');
        $(".popup__vid").empty();
     },
   };
 })();
-
-PopUps.init();
+PopItUp.init();
