@@ -10,7 +10,10 @@
  */
 
 var PopItUp = (function() {
-
+  
+  // To scope settings 's' shortcut
+  var s;
+  
   /**
    * Settings
    */
